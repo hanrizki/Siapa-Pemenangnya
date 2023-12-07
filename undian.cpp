@@ -10,6 +10,41 @@ using namespace std;
 // menggunakan srand(time(0)) dan rand() supaya menghasikan nomor undian secara acak
 // Pengguna jg dapat mencari apakah nomor peserta yg dicari termasuk dalam daftar pemenang undian atau tidak
 
+
+    // Fungsi untuk mengundian nomor pemenang
+void undiPemenang(int data[], int jumlahpeserta) { 
+       srand(time(0));
+       int pertama = 1; 
+	   int undi, nomor;
+       for (int i = 0; i < jumlahpeserta; i++) { 
+            do {
+            	 undi = rand() % jumlahpeserta + 1;
+             	 if (pertama == 1) { 
+    	         	 data[i] = undi; 
+     	         	 pertama = 0; 
+     	         	 } 
+             	 else { 
+     	         	 for (int j = 0; j < i; j++) {
+             	 	   nomor = data[j];
+            	 	   if (undi == nomor) break; 
+           	 	       else data[i] = undi;
+    		 	         }
+    		 	    }
+    	       }
+    	    while (undi == nomor);
+        }
+ } 
+
+ // Fungsi untuk menampilkan pemenang
+void tampilkanPemenang(int data[], int n) { 
+    	cout << "\nDaftar Pemenang Undian: \n"; 
+    	for (int i = 0; i < 3; i++) { 
+    		cout << "Pemenang UNDIAN ke-" << i + 1 << " : " << data[i] << endl;
+    		}
+    	cout << "Selamat Kepada Para Pemenang!" << endl; 
+    }
+
+
 int main()
 {
     cout << "-------------------------------------------------------" << endl;
@@ -21,51 +56,42 @@ int main()
     int pertama = 1;
     bool ketemu = false;
     srand(time(0));
+    int temp = 0;
 
     cout << "Masukkan Jumlah Peserta Undian: ";
     cin >> jumlahpeserta;
     
     //input nomor peserta
+    cout << "Masukkan data nomor peserta secara acak  " << ": ";
     int data[jumlahpeserta];
-    for (int i= 1; i <= jumlahpeserta; i++){
-        cout << "Masukkan data nomor peserta " << i << ": ";
+    for (int i= 0; i < jumlahpeserta; i++){
         cin >> data[i];
     } 
 
-    //Proses menghasilkan Nomor Pemenang secara acak
-    for (int i= 0; i<jumlahpeserta; i++){
-        do
-        {
-            undi=rand()%jumlahpeserta+1;            
-            if(pertama==1){
-                data[i]=undi;
-                pertama=0;
-            }
-            else
-            {
-                for(int j=0; j<i; j++){
-                    nomor=data[j];
-                    if (undi==nomor)
-                        break;
-                    else 
-                        data[i]=undi;
-                }
-                
-            }
-        } while (undi==nomor);
+    for (int i= 0; i < jumlahpeserta; i++){
+        for (int j=0; j<jumlahpeserta-i-1; j++){
+            if (data[j] > data[j+1]){
+                temp = data[j];
+                data[j]= data[j+1];
+                data[j+1]=temp;  }
+        }
 
+    }    
+    cout << "Data Nomor Peserta Sudah Diurutkan : ";
+    for(int i = 0; i<jumlahpeserta; i++){
+        cout << data[i]<<" ";
     }
-
-    //Menampilkan Nomor Pemenang
-    cout << "\n Daftar Pemenang Undian \n" ;
-    for (int i= 0; i<3; i++){
-        cout << "Pemenang UNDIAN ke-"<< i+1 << " : " << data[i] << endl;
-    }
-    cout << "Selamat Kepada Para Pemenang!" << endl;
     cout << endl;
 
-    //mencari nomor peserta 
-    cout << "Masukkan Nomor Peserta yang dicari : ";
+    // Memanggil fungsi undipemenang 
+     undiPemenang(data, jumlahpeserta);
+    cout << endl;
+   	/// Menampilkan Daftar para pemenang undian
+     tampilkanPemenang(data, jumlahpeserta); 
+    
+    cout << endl;
+    // Mencari nomor peserta 
+    cout << "Masukkan Nomor Peserta yang dicari : " ;
     cin >> cari ;
     for (int i= 0; i<data[i]; i++){
         if (data[i]== cari){
@@ -83,7 +109,7 @@ int main()
 
 /*Nama Anggota:
  Putri Alena Sari 2307051024
- Muhammad Farhan Rizki npm isi sendiri
- Nugraha Aditya Wardana npm isi sendiri
- Anggun Safitri npm isi sendiri 
+ Muhammad Farhan Rizki 2307051005
+ Anggun Safitri 2307051004
+ Nugraha Aditya Wardana 2307051012 
  */
